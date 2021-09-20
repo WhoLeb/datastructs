@@ -1,6 +1,7 @@
 #pragma once
 #include <stdlib.h>
 #include <iostream>
+#include <cstdarg>
 
 namespace WhoLeb
 {
@@ -8,17 +9,16 @@ namespace WhoLeb
 	class dynamic_array
 	{
 	public:
-		dynamic_array(unsigned const int size);
+		dynamic_array(const size_t size, ...);
 		dynamic_array();
-
-		void push_back(T element);
-		void pop_back();
-		void add_elements(unsigned const int place, unsigned const int count);
-		void remove_elements(unsigned const int place, unsigned const int count);
-		void print_array();
+		
+		inline T get(size_t place);
+		void add_element(const size_t, T value);
+		T remove_element(const size_t place);
 		T operator[](size_t place);
+		size_t size();
 
-	private:
+	protected:
 		void double_size();
 		void reduce_size();
 		size_t element_size();
@@ -28,15 +28,20 @@ namespace WhoLeb
 		T* arr;
 	};
 
-	template<class T> dynamic_array<T>::dynamic_array(unsigned const int size)
+	template<class T> dynamic_array<T>::dynamic_array()
 	{
-		arr = (T*)malloc(size * element_size());
-		for (unsigned int i = 0; i < size; i++)
-		{
-			std::cout << "Enter the value: ";
-			std::cin >> arr[i];
-		}
-		current_count = size;
+		current_size = 1;
+		current_count = 0;
+		arr = new T[0];
+	}
+	
+	template<class T> T dynamic_array<T>::get(size_t place)
+	{
+		return arr[place];
+	}
+
+	template<class T> dynamic_array<T>::dynamic_array(const size_t size, ...)
+	{
 		int k = 0;
 		unsigned int csize = size;
 		while (csize)
@@ -45,86 +50,56 @@ namespace WhoLeb
 			k++;
 		}
 		current_size = 1 << k;
+
+		arr = new T[current_size];
+		std::va_list args;
+		va_start(args, size);
+
+		for (size_t i = 0; i < size; i++)
+			arr[i] = va_arg(args, T);
+		
+		va_end(args);
+		
+		current_count = size;
 	}
 
-	template<class T> dynamic_array<T>::dynamic_array()
+	template<class T> void dynamic_array<T>::add_element(const size_t place, T value)
 	{
-		arr = (T*)malloc(element_size());
-		std::cout << "Enter the value: ";
-		std::cin >> arr[0];
-		current_size = current_count = 1;
-	}
-
-	template<class T> void dynamic_array<T>::push_back(T element)
-	{
-		if (current_count == current_size)
-			double_size();
-		arr[current_count] = element;
+		if (current_count + 1 > current_size) double_size();
+		for (int i = current_count; i > place; i--)
+			arr[i] = arr[i - 1];
+		arr[place] = value;
 		current_count++;
 	}
 
-	template<class T> void dynamic_array<T>::pop_back()
+	template<class T> T dynamic_array<T>::remove_element(const size_t place)
 	{
-		arr[current_count] = 0;
+		T v = arr[place];
+		for (int i = place; i < current_count - 1; i++)
+			arr[i] == arr[i + 1];
 		current_count--;
-		if (current_count < current_size / 2)
-			reduce_size();
-	}
-
-	template<class T> void dynamic_array<T>::add_elements(unsigned const int place, unsigned const int count)
-	{
-		T* tmp = new T[current_count - place + 1];
-		for (int i = 0, j = place; j < current_count; i++, j++)
-			tmp[i] = arr[j];
-		if (current_count + count > current_size) double_size();
-		for (int i = place; i < place + count; i++) 
-		{
-			std::cout << "Enter the value: ";
-			std::cin >> arr[i];
-		}
-		for (int i = place + count, j = 0; i < current_count + count; i++, j++)
-			arr[i] = tmp[j];
-		delete[] tmp;
-		current_count = current_count + count;
-	}
-
-	template<class T> void dynamic_array<T>::remove_elements(unsigned const int place, unsigned const int count)
-	{
-		T* tmp = new T[current_count - place - count + 1];
-		for (int i = 0, j = place + count; j < current_count; i++, j++)
-			tmp[i] = arr[j];
-		for (int i = place, j = 0; i < current_count; i++, j++)
-			arr[i] = tmp[j];
-		for (int i = current_count - count; i < current_count; i++)
-			arr[i] = 0;
-		delete[] tmp;
-		current_count -= count;
 		while (current_count < current_size / 2)
 			reduce_size();
 	}
 
-	template<class T> void dynamic_array<T>::print_array()
-	{
-		std::cout << std::endl;
-		for (int i = 0; i < current_count; i++)
-		{
-			std::cout << arr[i] << " ";
-		}
-		std::cout << std::endl;
-	}
-
 	template<class T> T dynamic_array<T>::operator[](size_t place)
 	{
+		if (place > current_count)
+		{
+			std::cout << "Bad input ";
+			return -1;
+		}
 		return arr[place];
+	}
+
+	template<class T> size_t dynamic_array<T>::size()
+	{
+		return current_count;
 	}
 
 	template<class T> void dynamic_array<T>::double_size()
 	{
 		current_size <<= 1;
-		/*T* tmp = (T*)malloc(current_size * element_size());
-		memcpy(tmp, arr, current_count * element_size());
-		free(arr);
-		arr = tmp;*/
 		T* tmp = new T[current_size];
 		for (int i = 0; i < current_size; i++)
 			tmp[i] = arr[i];
@@ -147,3 +122,4 @@ namespace WhoLeb
 		return size_t(sizeof(T));
 	}
 }
+
