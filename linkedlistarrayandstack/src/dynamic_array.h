@@ -16,6 +16,7 @@ namespace WhoLeb
 		void add_elements(unsigned const int place, unsigned const int count);
 		void remove_elements(unsigned const int place, unsigned const int count);
 		void print_array();
+		T operator[](size_t place);
 
 	private:
 		void double_size();
@@ -110,6 +111,11 @@ namespace WhoLeb
 			std::cout << arr[i] << " ";
 		}
 		std::cout << std::endl;
+	}
+
+	template<class T> T dynamic_array<T>::operator[](size_t place)
+	{
+		return arr[place];
 	}
 
 	template<class T> void dynamic_array<T>::double_size()

@@ -4,13 +4,14 @@
 
 int main()
 {    
-    /*WhoLeb::Linked_List<int>* my_list = new WhoLeb::Linked_List<int>(5);
-    my_list->print_list();
-    my_list->create_nodes(3, 3);
-    my_list->print_list();
-    my_list->change_node(2, 0);
-    my_list->remove_nodes(2, 4);
-    my_list->print_list();*/
+    WhoLeb::Linked_List<int> my_list(2, 1, 2);
+    my_list.create_node(1, 3);
+    for (int i = 0; i < my_list.get_length(); i++)
+        std::cout << my_list[i]->value << " ";
+    my_list.remove_node(0);
+    for(int i = 0; i < my_list.get_length(); i++)
+        std::cout << my_list[i]->value << " ";
+    std::cout << std::endl;
 
     WhoLeb::dynamic_array<int> my_array(5);
     my_array.print_array();

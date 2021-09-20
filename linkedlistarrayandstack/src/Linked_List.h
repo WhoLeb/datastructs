@@ -1,162 +1,147 @@
 #pragma once
 #include <iostream>
+#include <cstdarg>
+
+
 namespace WhoLeb
 {
-    template<class T>
-    class Linked_List
-    {
-    public:
-        Linked_List(T& arr);
-        Linked_List(const unsigned int size);
-        Linked_List(Linked_List* Head) : head(Head) {}
-        Linked_List() : head(nullptr) {}
-        ~Linked_List() = default;
-        
-        void print_list();
-        void create_nodes(const unsigned int count, const unsigned int place);
-        void change_node(unsigned const int place, T new_val);
-        void remove_nodes(const int count, const int place);
-        Linked_List<T>* find_el(const int pos);
-        unsigned int get_length();
+	template<class T>
+	class Linked_List
+	{
+	public:
+		Linked_List(const size_t size, ...);
+		Linked_List(T val) : value(val) {}
+		Linked_List() = default;
 
-    private:
-        Linked_List* head;
-        Linked_List* next_node;
-        T element;
-    };
+		void create_node(size_t place, T value);
+		Linked_List<T>* remove_node(const size_t place);
+		size_t find_first_of(T value);
+		Linked_List<T>* operator[](size_t place);
+		Linked_List<T>* find_at(size_t place);
 
-    template<class T> Linked_List<T>::Linked_List(const unsigned int size)
-    {
-        Linked_List<T>* current = new Linked_List<T>;
-        if (!head) head = current;
-        Linked_List<T>* list = 0;
-        for (unsigned int i = 0; i < size; i++)
-        {
-            if (i == 0) list = current;
-            std::cout << "Enter the value: ";
-            std::cin >> current->element;
-            if (std::cin.fail())
-            {
-                std::cout << "Wrong input!\n";
-                break;
-            }
+		size_t get_length();
 
-            if (i < size)
-            {
-                current->next_node = new Linked_List<T>(head);
-                current = current->next_node;
-            }
-            else current->next_node = nullptr;
-        }
-    }
+		T value;
+	private:
+		Linked_List* head;
+		Linked_List* next_node;
+	};
 
-    template<class T> Linked_List<T>::Linked_List(T& arr)
-    {
-        int size = sizeof(arr) / sizeof(T);
-        Linked_List<T>* current = new Linked_List<T>;
-        if (!head) head = current;
-        Linked_List<T>* list = nullptr;
-        for (int i = 0; i < size; i++)
-        {
-            if (i == 0) list = current;
-            current->element = arr[i];
-            if (std::cin.fail)
-            {
-                std::cout << "Wrong input!\n";
-                break;
-            }
+	template<class T> Linked_List<T>::Linked_List(const size_t size, ...)
+	{
+		Linked_List<T>* current = new Linked_List<T>;
+		if (!head) head = current;
+		Linked_List<T>* list = 0;
 
-            if (i < size)
-            {
-                current->next_node = new Linked_List<T>(head);
-                current = current->next_node;
-            }
-            else current->next_node = nullptr;
-        }
-    }
+		std::va_list args;
+		va_start(args, size);
 
-    template<class T> void Linked_List<T>::change_node(unsigned const int place, T new_val)
-    {
-        auto current = find_el(place - 1);
-        std::cin >> new_val;
-        current->element = new_val;
-    }
+		for (unsigned int i = 0; i < size; i++)
+		{
+			if (i == 0) list = current;
 
-    template<class T> void Linked_List<T>::create_nodes(const unsigned int count, const unsigned int place)
-    {
-        if (count < 1 || place < 1)
-        {
-            std::cout << "Wrong input, creating unacceptable amout at unacceptable place\n";
-            return;
-        }
-        Linked_List<T>* templ1 = find_el(place);
-        Linked_List<T>* list2 = new Linked_List<T>(count);
-        if (place == 1)
-        {
-            list2->find_el(count - 1)->next_node = head;
-            head = list2->head;
-        }
-        else
-        {
-            find_el(place - 1)->next_node = list2->head;
-            list2->find_el(count - 1)->next_node = templ1;
-        }
-    }
+			current->value = va_arg(args, T);
 
-    template<class T> void Linked_List<T>::remove_nodes(const int count, const int place)
-    {
-        if (place == 1)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                Linked_List* templ = head->next_node;
-                delete head;
-                head = templ;
-            }
-        }
-        else
-        {
-            Linked_List* templ_1 = find_el(place);
-            for (int i = 0; i < count; i++)
-            {
-                Linked_List* templ_2 = templ_1->next_node;
-                delete templ_1;
-                templ_1 = templ_2;
-            }
-            find_el(place - 1)->next_node = templ_1;
-        }
-    }
+			if (i < size)
+			{
+				current->next_node = new Linked_List<T>();
+				current->next_node->head = this->head;
+				current = current->next_node;
+			}
+			else current->next_node = nullptr;
+		}
 
-    template<class T> Linked_List<T>* Linked_List<T>::find_el(const int pos)
-    {
-        Linked_List<T>* tmp = head;
-        for (int i = 0; i < pos; i++)
-            tmp = tmp->next_node;
-        return tmp;
-    }
+	}
 
-    template<class T> unsigned int WhoLeb::Linked_List<T>::get_length()
-    {
-        int k = 1;
-        auto tmp = head;
-        while (tmp->next_node)
-        {
-            k++;
-            tmp = tmp->next_node;
-        }
-        return k;
-    }
+	template<class T> void Linked_List<T>::create_node(size_t place, T val)
+	{
+		if (place < 1)
+		{
+			std::cout << "Wrong input, creating unacceptable amout at unacceptable place\n";
+			return;
+		}
+		if (place > get_length())
+		{
+			std::cout << "\nWrong input, wrong input, creating elements at last place\n";
+			place = get_length();
+		}
 
-    template<class T> void Linked_List<T>::print_list()
-    {
-        Linked_List<T>* tmp = head;
-        while (tmp->next_node)
-        {
-            std::cout << tmp->element << " ";
-            tmp = tmp->next_node;
-        }
-        std::cout << std::endl;
-    }
+		Linked_List<T>* tmp = head;
+		Linked_List<T>* templ1 = &head[place];
+		Linked_List<T>* new_el = new Linked_List<T>(val);
+		new_el->head = head;
 
+		if (place == 0)
+		{
+			new_el->next_node = head;
+			head = new_el;
+			while (tmp->next_node) tmp->head = head;
+		}
+		else
+		{
+			this->find_at(place - 1)->next_node = new_el;
+			new_el->next_node = templ1;
+		}
+	}
+
+	template<class T> Linked_List<T>* Linked_List<T>::remove_node(const size_t place)
+	{
+		Linked_List<T>* tmp;
+		if (place == 0)
+		{
+			Linked_List* templ = head->next_node;
+			tmp = head;
+			delete head;
+			head = templ;
+		}
+		else
+		{
+			Linked_List* templ_1 = (&head[place]);
+
+			Linked_List* templ_2 = templ_1->next_node;
+			tmp = templ_1;
+			delete templ_1;
+
+			head[place - 1]->next_node = templ_2;
+		}
+		return tmp;
+	}
+
+	template<class T> size_t Linked_List<T>::get_length()
+	{
+		int k = 1;
+		auto tmp = head;
+		while (tmp->next_node)
+		{
+			k++;
+			tmp = tmp->next_node;
+		}
+		return k;
+	}
+
+	template<class T> Linked_List<T>* Linked_List<T>::operator[](size_t place)
+	{
+		Linked_List<T>* tmp = head;
+		for (size_t i = 0; i < place && tmp->next_node; i++)
+		{
+			tmp = tmp->next_node;
+		}
+		return tmp;
+	}
+
+	template<class T> Linked_List<T>* Linked_List<T>::find_at(size_t place)
+	{
+		Linked_List<T>* tmp = head;
+		for (size_t i = 0; i < place && tmp->next_node; i++)
+		{
+			tmp = tmp->next_node;
+		}
+		return tmp;
+	}
+
+	template<class T> size_t Linked_List<T>::find_first_of(T value)
+	{
+
+	}
 }
 
