@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <cstdarg>
+#include <random>
 
 namespace WhoLeb
 {
@@ -66,7 +67,7 @@ namespace WhoLeb
 	template<class T> void dynamic_array<T>::add_element(const size_t place, T value)
 	{
 		if (current_count + 1 > current_size) double_size();
-		for (int i = current_count; i > place; i--)
+		for (size_t i = current_count; i > place; i--)
 			arr[i] = arr[i - 1];
 		arr[place] = value;
 		current_count++;
@@ -75,11 +76,13 @@ namespace WhoLeb
 	template<class T> T dynamic_array<T>::remove_element(const size_t place)
 	{
 		T v = arr[place];
+		if(place < 0) return 0;
 		for (int i = place; i < current_count - 1; i++)
 			arr[i] == arr[i + 1];
 		current_count--;
 		while (current_count < current_size / 2)
 			reduce_size();
+		return v;
 	}
 
 	template<class T> T dynamic_array<T>::operator[](size_t place)
@@ -101,7 +104,7 @@ namespace WhoLeb
 	{
 		current_size <<= 1;
 		T* tmp = new T[current_size];
-		for (int i = 0; i < current_size; i++)
+		for (int i = 0; i < current_count; i++)
 			tmp[i] = arr[i];
 		std::swap(arr, tmp);
 		delete[] tmp;
@@ -109,8 +112,9 @@ namespace WhoLeb
 
 	template<class T> void dynamic_array<T>::reduce_size()
 	{
-		current_size >>= 1;
 		T* tmp = new T[current_size];
+		if(current_size != 1) current_size >>= 1;
+		else return;
 		for (int i = 0; i < current_size; i++)
 			tmp[i] = arr[i];
 		std::swap(arr, tmp);
