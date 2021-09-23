@@ -5,32 +5,53 @@
 #include <iostream>
 #include <random>
 
+std::string ifix2pfix(std::string& string);
+
 int main()
 {
 
-    WhoLeb::dynamic_array<std::string> nums(10, "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" );
-    WhoLeb::dynamic_array<std::string> funcs(2, "sin", "cos" );
-    WhoLeb::dynamic_array<std::string> operators(5, "+", "-", "*", "/", "^" );
-    WhoLeb::dynamic_array<std::string> braces(2, "(", ")" );
+    
+    std::string string;
+    std::getline(std::cin >> std::ws, string);
 
-    WhoLeb::stack<std::string> my_stack;
+    std::string res = ifix2pfix(string);
+   
+    std::cout << res << std::endl;
+    
+    system("pause");
+}
 
-    std::string string = "5 + 7 * 9";
-    WhoLeb::dynamic_array<std::string> tokens;
+
+std::string ifix2pfix(std::string& string)
+{
+    std::string nums = "0123456789";
+    std::string funcs = "sincos";
+    std::string operators = "+-*/^";
+    std::string braces = "()";
     std::string res = "";
-    while (string.find(" "))
+    WhoLeb::stack<std::string> my_stack;
+    WhoLeb::dynamic_array<std::string> tokens;
+
+    while (!string.empty())
     {
-        tokens.add_element(tokens.size(), string.substr(0, string.find(" ")));
-        string.replace(0, string.find(" "), "");
+        if (string.find_first_of(" ") == -1)
+        {
+            tokens.add_element(tokens.size(), string.substr(0, string.size()));
+            string.replace(string.begin(), string.end(), "");
+            break;
+        }
+        tokens.add_element(tokens.size(), string.substr(0, string.find_first_of(" ")));
+        string.replace(0, string.find_first_of(" ") + 1, "");
     }
+
     for (int tok = 0; tok < tokens.size(); tok++)
     {
         if (nums.find_first_of(tokens[tok]) != -1)
         {
-            res += tokens[tok];
+            res += tokens[tok] + " ";
             continue;
         }
-        if (funcs.find_first_of(tokens[tok]) != -1) 
+        if (funcs.find_first_of(tokens[tok]) != -1)
         {
             my_stack.push(tokens[tok]);
             continue;
@@ -38,9 +59,13 @@ int main()
         int t = operators.find_first_of(tokens[tok]);
         if (t != -1)
         {
-            while (operators.find_first_of(my_stack.top()) > t)
+            while (
+                !my_stack.empty() &&
+                operators.find_first_of(my_stack.top()) > t &&
+                operators.find_first_of(my_stack.top()) != -1
+                )
             {
-                res += my_stack.top();
+                res += my_stack.top() + " ";
                 my_stack.pop();
             }
             my_stack.push(tokens[tok]);
@@ -55,7 +80,8 @@ int main()
         {
             while (my_stack.top() != "(")
             {
-                res += my_stack.top();
+                res += my_stack.top() + " ";
+                my_stack.pop();
                 if (my_stack.empty())
                 {
                     std::cout << "\nMissed an opening bracket\n";
@@ -63,9 +89,9 @@ int main()
                 }
             }
             my_stack.pop();
-            if (funcs.find_first_of(my_stack.top()) != 1)
+            if (funcs.find_first_of(my_stack.top()) != -1)
             {
-                res += my_stack.top();
+                res += my_stack.top() + " ";
                 my_stack.pop();
             }
             continue;
@@ -75,12 +101,9 @@ int main()
 
     while (!my_stack.empty())
     {
-        res += my_stack.top();
+        res += my_stack.top() + " ";
         my_stack.pop();
     }
 
-    std::cout << std::endl << res << std::endl;
-    
-    system("pause");
+    return res;
 }
-

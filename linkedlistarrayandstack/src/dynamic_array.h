@@ -1,8 +1,7 @@
 #pragma once
-#include <stdlib.h>
 #include <iostream>
 #include <cstdarg>
-#include <random>
+
 
 namespace WhoLeb
 {
@@ -19,7 +18,7 @@ namespace WhoLeb
 		T operator[](size_t place);
 		int find_first_of(T value);
 		size_t size();
-		bool empty();
+		virtual bool empty();
 
 	protected:
 		void double_size();

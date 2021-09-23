@@ -59,17 +59,6 @@ namespace WhoLeb
 
 	template<class T> void Linked_List<T>::create_node(size_t place, T val)
 	{
-		if (place < 1)
-		{
-			std::cout << "Wrong input, creating unacceptable amout at unacceptable place\n";
-			return;
-		}
-		if (place > get_length())
-		{
-			std::cout << "\nWrong input, wrong input, creating elements at last place\n";
-			place = get_length();
-		}
-
 		Linked_List<T>* tmp = head;
 		Linked_List<T>* templ1 = head->find_at(place);
 		Linked_List<T>* new_el = new Linked_List<T>(val);
