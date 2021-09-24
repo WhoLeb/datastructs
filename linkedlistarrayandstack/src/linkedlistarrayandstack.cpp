@@ -61,7 +61,7 @@ std::string ifix2pfix(std::string& string)
         {
             while (
                 !my_stack.empty() &&
-                operators.find_first_of(my_stack.top()) > t &&
+                operators.find_first_of(my_stack.top()) / 2 >= t / 2 &&
                 operators.find_first_of(my_stack.top()) != -1
                 )
             {
@@ -89,7 +89,10 @@ std::string ifix2pfix(std::string& string)
                 }
             }
             my_stack.pop();
-            if (funcs.find_first_of(my_stack.top()) != -1)
+            if (
+                !my_stack.empty() &&
+                funcs.find_first_of(my_stack.top()) != -1
+                )
             {
                 res += my_stack.top() + " ";
                 my_stack.pop();
