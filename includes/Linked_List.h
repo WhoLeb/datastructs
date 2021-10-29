@@ -11,16 +11,19 @@ namespace WhoLeb
 	public:
 		Linked_List(const size_t size, ...);
 		Linked_List(T val) : value(val) {}
-		Linked_List() = default;
+		Linked_List();
 
 		void create_node(size_t place, T value);
 		T remove_node(const size_t place);
 		size_t find_first_of(T value);
-		Linked_List<T>* operator[](size_t place);
+		Linked_List<T>& operator[](size_t place);
+		Linked_List<T>* get_node(size_t place);
+
 		size_t get_length();
+		
 
 		T value;
-	private:
+	protected:
 		Linked_List<T>* find_at(size_t place);
 
 		Linked_List* head;
@@ -57,18 +60,27 @@ namespace WhoLeb
 
 	}
 
+	template<class T> Linked_List<T>::Linked_List()
+	{
+		head = nullptr;
+		next_node = nullptr;
+		value = NULL;
+	}
+
 	template<class T> void Linked_List<T>::create_node(size_t place, T val)
 	{
 		Linked_List<T>* tmp = head;
-		Linked_List<T>* templ1 = head->find_at(place);
 		Linked_List<T>* new_el = new Linked_List<T>(val);
-		new_el->head = head;
-
+		Linked_List<T>* templ1 = nullptr;
+		if (head) {
+			templ1 = head->find_at(place);
+			new_el->head = head;
+		}
 		if (place == 0)
 		{
 			new_el->next_node = head;
 			head = new_el;
-			while (tmp->next_node) tmp->head = head;
+			while (tmp && tmp->next_node) tmp->head = head;
 		}
 		else
 		{
@@ -82,10 +94,12 @@ namespace WhoLeb
 		T tmp;
 		if (place == 0)
 		{
+			if (head == nullptr) return T(NULL);
 			Linked_List* templ = head->next_node;
 			tmp = head->value;
 			delete head;
 			head = templ;
+			while (templ && templ->next_node) templ->head = head;
 		}
 		else
 		{
@@ -104,6 +118,7 @@ namespace WhoLeb
 	{
 		int k = 1;
 		auto tmp = head;
+		if (tmp == nullptr) return 0;
 		while (tmp->next_node)
 		{
 			k++;
@@ -112,7 +127,18 @@ namespace WhoLeb
 		return k;
 	}
 
-	template<class T> Linked_List<T>* Linked_List<T>::operator[](size_t place)
+	template<class T> Linked_List<T>& Linked_List<T>::operator [](size_t place)
+	{
+		Linked_List<T>& tmp = &head;
+		for (size_t i = 0; i < place && tmp->next_node; i++)
+		{
+			tmp = tmp->next_node;
+		}
+		return tmp.next_node;
+	}
+
+	template<class T>
+	inline Linked_List<T>* Linked_List<T>::get_node(size_t place)
 	{
 		Linked_List<T>* tmp = head;
 		for (size_t i = 0; i < place && tmp->next_node; i++)
@@ -120,6 +146,7 @@ namespace WhoLeb
 			tmp = tmp->next_node;
 		}
 		return tmp;
+		// TODO: insert return statement here
 	}
 
 	template<class T> Linked_List<T>* Linked_List<T>::find_at(size_t place)
