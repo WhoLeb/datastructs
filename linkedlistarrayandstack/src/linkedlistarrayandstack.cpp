@@ -11,13 +11,33 @@ int main()
 {
 
     
-    std::string string;
+    /*std::string string;
     std::getline(std::cin >> std::ws, string);
 
     std::string res = ifix2pfix(string);
    
     std::cout << res << std::endl;
-    
+    */
+
+
+    WhoLeb::dynamic_array<int> myArr(4, 1, 2, 3, 4);
+    for (int i = 0; i < 4; i++)
+    {
+        std::cout << myArr[i];
+    }
+    std::cout << std::endl;
+
+    for (int i = 100; i > -40; i--)
+        myArr.push(i);
+
+
+    myArr.sort();
+    for (int i = 0; i < myArr.size(); i++)
+    {
+        std::cout << myArr[i] << ' ';
+    }
+    std::cout << std::endl;
+
     system("pause");
 }
 
@@ -56,7 +76,7 @@ std::string ifix2pfix(std::string& string)
             my_stack.push(tokens[tok]);
             continue;
         }
-        int t = operators.find_first_of(tokens[tok]);
+        size_t t = operators.find_first_of(tokens[tok]);
         if (t != -1)
         {
             while (
