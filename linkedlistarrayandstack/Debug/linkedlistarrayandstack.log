@@ -1,0 +1,5 @@
+﻿  linkedlistarrayandstack.cpp
+linkedlistarrayandstack.obj : error LNK2019: unresolved external symbol "public: __thiscall WhoLeb::Linked_List<int>::Linked_List<int>(unsigned int)" (??0?$Linked_List@H@WhoLeb@@QAE@I@Z) referenced in function _main
+linkedlistarrayandstack.obj : error LNK2019: unresolved external symbol "public: void __thiscall WhoLeb::Linked_List<int>::print_list(void)" (?print_list@?$Linked_List@H@WhoLeb@@QAEXXZ) referenced in function _main
+linkedlistarrayandstack.obj : error LNK2019: unresolved external symbol "public: void __thiscall WhoLeb::Linked_List<int>::create_nodes(unsigned int,unsigned int)" (?create_nodes@?$Linked_List@H@WhoLeb@@QAEXII@Z) referenced in function _main
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\Debug\linkedlistarrayandstack.exe : fatal error LNK1120: 3 unresolved externals

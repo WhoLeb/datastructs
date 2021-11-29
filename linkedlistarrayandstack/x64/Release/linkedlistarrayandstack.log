@@ -1,0 +1,22 @@
+﻿  linkedlistarrayandstack.cpp
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\dynamic_array.h(81,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\dynamic_array.h(78): message : while compiling class template member function 'T WhoLeb::dynamic_array<T>::remove_element(const size_t)'
+          with
+          [
+              T=int
+          ]
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\Stack.h(49): message : see reference to function template instantiation 'T WhoLeb::dynamic_array<T>::remove_element(const size_t)' being compiled
+          with
+          [
+              T=int
+          ]
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\Stack.h(25): message : while compiling class template member function 'WhoLeb::stack<int>::stack(void)'
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\linkedlistarrayandstack.cpp(10): message : see reference to function template instantiation 'WhoLeb::stack<int>::stack(void)' being compiled
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\linkedlistarrayandstack.cpp(10): message : see reference to class template instantiation 'WhoLeb::stack<int>' being compiled
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\dynamic_array.h(82,11): warning C4553: '==': result of expression not used; did you intend '='?
+  Generating code
+  0 of 16 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  linkedlistarrayandstack.vcxproj -> C:\Users\gleb_\source\repos\linkedlistarrayandstack\x64\Release\linkedlistarrayandstack.exe

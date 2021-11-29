@@ -1,0 +1,12 @@
+﻿  linkedlistarrayandstack.cpp
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\dynamic_array.h(70,1): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\dynamic_array.h(68): message : while compiling class template member function 'WhoLeb::dynamic_array<int>::dynamic_array(const size_t,...)'
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\linkedlistarrayandstack.cpp(23): message : see reference to function template instantiation 'WhoLeb::dynamic_array<int>::dynamic_array(const size_t,...)' being compiled
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\linkedlistarrayandstack.cpp(23): message : see reference to class template instantiation 'WhoLeb::dynamic_array<int>' being compiled
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\dynamic_array.h(76,1): warning C4334: '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\dynamic_array.h(250,1): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\dynamic_array.h(243): message : while compiling class template member function 'int WhoLeb::dynamic_array<int>::get_minrun(void)'
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\dynamic_array.h(88): message : see reference to function template instantiation 'int WhoLeb::dynamic_array<int>::get_minrun(void)' being compiled
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\dynamic_array.h(68): message : while compiling class template member function 'WhoLeb::dynamic_array<int>::dynamic_array(const size_t,...)'
+C:\Users\gleb_\source\repos\linkedlistarrayandstack\linkedlistarrayandstack\src\linkedlistarrayandstack.cpp(23): message : see reference to function template instantiation 'WhoLeb::dynamic_array<int>::dynamic_array(const size_t,...)' being compiled
+  linkedlistarrayandstack.vcxproj -> C:\Users\gleb_\source\repos\linkedlistarrayandstack\x64\Debug\linkedlistarrayandstack.exe

@@ -38,7 +38,7 @@ namespace WhoLeb
 	public:
 		int length;
 		T* _array;
-	}; //штука нужная для тимсорта.
+	}; С‡С‘
 		
 
 	private:
@@ -100,13 +100,16 @@ namespace WhoLeb
 	template<class T> T dynamic_array<T>::remove_element(const size_t place)
 	{
 		T v = arr[place];
-		if (place < 0) return 0;
-		for (size_t i = place; i < current_count - 1; i++)
-			arr[i] = arr[i + 1];
-		current_count--;
-		while (current_count < current_size / 2)
-			reduce_size();
-		return v;
+		if (place < 0);
+		else
+		{
+			for (size_t i = place; i < current_count - 1; i++)
+				arr[i] = arr[i + 1];
+			current_count--;
+			while (current_count < current_size / 2)
+				reduce_size();
+			return v;
+		}
 	}
 
 	template<class T> T dynamic_array<T>::operator[](size_t place)
@@ -241,7 +244,7 @@ namespace WhoLeb
 	template<class T>
 	inline int dynamic_array<T>::get_minrun()
 	{
-		int r = 0;		/* станет 1 если среди сдвинутых битов будет хотя бы 1 ненулевой */
+		int r = 0;		/* пїЅпїЅпїЅпїЅпїЅпїЅ 1 пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ 1 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 		size_t n = current_count;
 		while (n >= 64) {
 			r |= n & 1;
