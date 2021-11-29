@@ -38,7 +38,7 @@ namespace WhoLeb
 	public:
 		int length;
 		T* _array;
-	}; чё
+	}; 
 		
 
 	private:
